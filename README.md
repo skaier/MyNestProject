@@ -58,6 +58,3 @@ Patch file location: `patches/@nestjs+typeorm+11.0.0.patch`
 1. If you encounter Node.js version warnings, consider upgrading to Node.js v20+
 2. The project has been tested with NestJS v11 dependencies
 3. For development, ensure you have all required environment variables set
-
-## Support
-For any issues, please check the [NestJS documentation](https://docs.nestjs.com) or open an issue in the project repository.

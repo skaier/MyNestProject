@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { PaginationDto } from '../common/dto/pagination.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -14,16 +15,42 @@ export class UsersController {
   @ApiOperation({ summary: 'Create a new user' })
   @ApiResponse({ status: HttpStatus.CREATED, description: 'The user has been successfully created.' })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad request.' })
-  @ApiBody({ type: CreateUserDto })
+  @ApiBody({ 
+    type: CreateUserDto,
+    examples: {
+      example1: {
+        value: {
+          name: 'John Doe',
+          email: 'john@example.com',
+          password: 'P@ssw0rd',
+          role: 'user',
+          isActive: true,
+          avatar: '/uploads/avatars/default.jpg'
+        },
+        description: 'Example of creating a new user'
+      }
+    }
+  })
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all users' })
-  @ApiResponse({ status: HttpStatus.OK, description: 'Return all users.' })
-  findAll() {
-    return this.usersService.findAll();
+  @ApiOperation({ summary: 'Get paginated list of users' })
+  @ApiResponse({ 
+    status: HttpStatus.OK, 
+    description: 'Return paginated list of users.',
+    schema: {
+      example: {
+        data: [],
+        total: 0,
+        page: 1,
+        limit: 10
+      }
+    }
+  })
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.usersService.findAll(paginationDto);
   }
 
   @Get(':id')
@@ -38,7 +65,22 @@ export class UsersController {
   @ApiOperation({ summary: 'Update a user' })
   @ApiResponse({ status: HttpStatus.OK, description: 'The user has been successfully updated.' })
   @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'User not found.' })
-  @ApiBody({ type: UpdateUserDto })
+  @ApiBody({ 
+    type: UpdateUserDto,
+    examples: {
+      example1: {
+        value: {
+          name: 'John Doe Updated',
+          email: 'john.updated@example.com',
+          password: 'NewP@ssw0rd',
+          role: 'admin',
+          isActive: false,
+          avatar: '/uploads/avatars/new.jpg'
+        },
+        description: 'Example of updating a user'
+      }
+    }
+  })
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
