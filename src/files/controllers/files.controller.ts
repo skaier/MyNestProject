@@ -3,6 +3,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
 import { Multer } from 'multer';
 import { FileManagementService } from '../services/files.service';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('files')
 export class FileManagementController {
@@ -16,6 +17,11 @@ export class FileManagementController {
   }
 
   @Delete('delete/:id')
+  @ApiOperation({ summary: 'Delete a file' })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Delete operation completed. Returns success regardless of whether file existed.' 
+  })
   async deleteFile(@Param('id') id: string) {
     return this.fileService.removeFile(parseInt(id));
   }

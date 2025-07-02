@@ -69,9 +69,9 @@ export class FileManagementService {
   async removeFile(id: number) {
     const file = await this.fileRepository.findOne({ where: { id } });
     if (!file) {
-      throw new Error('File not found');
+      return;
     }
     await this.strategy.delete(file.fileKey);
-    return this.fileRepository.delete(id);
+    await this.fileRepository.delete(id);
   }
 }

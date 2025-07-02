@@ -24,11 +24,11 @@ CREATE TABLE `files` (
   `name` varchar(255) NOT NULL,
   `path` varchar(255) NOT NULL,
   `size` int NOT NULL,
-  `mimetype` varchar(255) NOT NULL,
-  `createdAt` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-  `updatedAt` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
-  `fileKey` varchar(255) DEFAULT NULL,
-  `storageType` enum('local','s3','oss') NOT NULL DEFAULT 'local',
-  `isPublic` tinyint(1) NOT NULL DEFAULT '0',
+  `mime_type` varchar(255) NOT NULL,
+  `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  `file_key` varchar(255) DEFAULT NULL,
+  `storage_type` enum('local','s3','oss') NOT NULL DEFAULT 'local',
+  `is_public` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
