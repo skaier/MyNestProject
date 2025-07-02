@@ -44,4 +44,8 @@ export class UsersService {
   async remove(id: number): Promise<void> {
     await this.usersRepository.delete(id);
   }
+
+  async findAllForExport(): Promise<User[]> {
+    return this.usersRepository.find();
+  }
 }
