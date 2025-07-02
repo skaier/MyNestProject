@@ -1,8 +1,8 @@
 import { Controller, Post, Delete, Get, Param, UseInterceptors, UploadedFile, Body } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { FileManagementService } from '../services/file-management.service';
+import { FileInterceptor } from '@nestjs/platform-express'; 
 import { Express } from 'express';
 import { Multer } from 'multer';
+import { FileManagementService } from '../services/files.service';
 
 @Controller('files')
 export class FileManagementController {
@@ -11,17 +11,28 @@ export class FileManagementController {
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(@UploadedFile() file: Express.Multer.File) {
-    return this.fileService.upload(file);
+    const { url, key } = await this.fileService.upload(file);
+    return this.fileService.createFileRecord(file, url, key);
   }
 
-  @Delete(':key')
-  async deleteFile(@Param('key') key: string) {
-    return this.fileService.delete(key);
+  @Delete('delete/:id')
+  async deleteFile(@Param('id') id: string) {
+    return this.fileService.removeFile(parseInt(id));
   }
 
-  @Get(':key')
+  @Get('url/:key')
   async getFileUrl(@Param('key') key: string) {
     return this.fileService.getUrl(key);
+  }
+
+  @Get('list')
+  async getAllFiles() {
+    return this.fileService.findAllFiles();
+  }
+
+  @Get('detail/:id')
+  async getFile(@Param('id') id: string) {
+    return this.fileService.findFileById(parseInt(id));
   }
 
   @Post('strategy')

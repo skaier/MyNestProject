@@ -38,8 +38,20 @@ export class LocalStorageStrategy implements StorageStrategy {
   }
 
   async delete(key: string): Promise<boolean> {
-    // Implementation for file deletion
-    return true;
+    const fs = require('fs');
+    const path = require('path');
+    const filePath = path.join(this.uploadPath, key);
+    
+    try {
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Error deleting file:', error);
+      return false;
+    }
   }
 
   async getUrl(key: string): Promise<string> {

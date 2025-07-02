@@ -1,76 +1,72 @@
-# NestJS 项目
+# NestJS 后台管理系统
 
 ## 项目概述
-这是一个基于NestJS的企业级后端应用，提供文件管理和用户管理功能。项目采用模块化架构，使用TypeORM进行数据持久化，集成了Winston日志系统和Swagger API文档。
+这是一个基于NestJS的后台管理系统，提供用户管理和文件处理功能。项目使用TypeORM连接MySQL数据库，支持数据库迁移，并集成了Swagger API文档。
 
 ## 技术栈
 - **框架**: NestJS
 - **数据库**: MySQL + TypeORM
-- **文件存储**: 阿里云OSS
+- **文件存储**: 本地存储 + 阿里云OSS(预留)
 - **日志**: Winston
 - **API文档**: Swagger
-- **测试**: Jest
+- **Excel处理**: exceljs
 
-## 项目结构
+## 功能特性
+
+### 用户管理
+- 用户CRUD操作
+- 分页查询
+- Excel导出
+- 数据验证
+
+### 文件管理
+- 文件上传/下载
+- 本地存储策略
+- 阿里云OSS存储(预留)
+- Excel导出服务
+
+## 安装指南
+
+1. 克隆项目
+```bash
+git clone <repository-url>
 ```
-├── src
-│   ├── app.module.ts        # 主应用模块
-│   ├── file-management      # 文件管理模块
-│   │   ├── controllers      # 控制器
-│   │   ├── services         # 服务层
-│   │   ├── strategies       # 文件存储策略
-│   │   └── interfaces       # 接口定义
-│   └── users                # 用户管理模块
-│       ├── dto              # 数据传输对象
-│       ├── entities         # 数据库实体
-│       ├── controllers      # 控制器
-│       └── services         # 服务层
-├── test                     # 测试代码
-├── database                 # 数据库迁移和种子
-└── uploads                  # 本地文件存储
-```
 
-## 环境要求
-- Node.js 16+
-- MySQL 5.7+
-- Redis (可选)
-
-## 安装与运行
-
-1. 安装依赖:
+2. 安装依赖
 ```bash
 npm install
 ```
 
-2. 复制环境变量文件:
+3. 配置环境变量
+复制`.env.example`为`.env`并填写实际配置
+
+4. 运行数据库迁移
 ```bash
-cp .env.example .env
+npm run migration:run
 ```
 
-3. 配置环境变量:
-```bash
-# 编辑.env文件配置数据库等信息
-```
-
-4. 运行开发服务器:
+5. 启动项目
 ```bash
 npm run start:dev
 ```
 
-5. 访问API文档:
-```
-http://localhost:3000/api
-```
+## 使用说明
 
-## 部署
+### API文档
+访问 `http://localhost:4000/doc` 查看Swagger文档
 
-1. 构建项目:
-```bash
-npm run build
-```
+### 环境变量配置
+- `DB_HOST`: 数据库主机
+- `DB_PORT`: 数据库端口
+- `DB_USERNAME`: 数据库用户名
+- `DB_PASSWORD`: 数据库密码
+- `DB_DATABASE`: 数据库名称
+- `UPLOAD_DIR`: 文件上传目录
 
-2. 生产环境运行:
-```bash
-npm run start:prod
-```
- 
+## 开发脚本
+- `npm run start`: 启动生产环境
+- `npm run start:dev`: 启动开发环境
+- `npm run test`: 运行测试
+- `npm run migration:generate`: 生成迁移文件
+- `npm run migration:run`: 运行迁移
+- `npm run build`: 构建项目

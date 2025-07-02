@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common'; 
-import { FileManagementModule } from './file-management/file-management.module';
+import { FilesModule } from './files/files.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MulterModule } from '@nestjs/platform-express';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
-import { LoggerModule } from '@/common/logger/logger.module';
+import { LoggerModule } from '@/common/logger/logger.module'; 
 
 @Module({
   imports: [
@@ -23,12 +24,15 @@ import { LoggerModule } from '@/common/logger/logger.module';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true,
+                  synchronize: false,
       }),
       inject: [ConfigService],
     }),
-    UsersModule,
-    FileManagementModule,
+    MulterModule.register({
+      dest: './uploads',
+    }),
+    FilesModule,
+    UsersModule, 
     LoggerModule,
   ],
   controllers: [AppController],
